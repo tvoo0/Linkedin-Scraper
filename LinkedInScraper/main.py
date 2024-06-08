@@ -38,8 +38,5 @@ if __name__ == '__main__':
             # if there are job URLs, when extract the job details and write to cvs file
             print("Extracting job details please wait...")
             job_details = ExtractJobDetails.extract_job_details(job_urls)
-            if not job_details:
-                print("Sorry, there are no job details available under these parameters, please try again.")
-            else:
-                writeToCSV.write_to_csv(job_details)
-                break
+            writeToCSV.write_to_csv(job_details)
+            break

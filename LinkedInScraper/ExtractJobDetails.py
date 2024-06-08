@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from lxml import html
 import re
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'}
@@ -17,7 +16,7 @@ def extract_job_details(job_urls):
         company_url = soup.find('a', class_='topcard__org-name-link topcard__flavor--black-link')
         company_url_parsed = company_url['href']
         company_info = requests.get(company_url_parsed, headers=headers) 
-        company_info_parsed = html.fromstring(company_info.text)
+        company_info_parsed = BeautifulSoup(company_info.text, 'html.parser')
           
         # title
         try:
@@ -39,11 +38,9 @@ def extract_job_details(job_urls):
         except AttributeError:
             description = 'N/A'
         
-        # size
         try:
-            # using xpath to extract the company size as the class name is not unique
-            size = company_info_parsed.xpath('//*[@id="main-content"]/section[1]/div/section[1]/div/dl/div[3]/dd/text()')[0].strip()
-            size = re.sub(r'\s+', ' ', size)
+            size_element = company_info_parsed.find('dt', text=re.compile('Company size'))
+            size = size_element.find_next_sibling('dd').text.strip()
         except AttributeError:
             size = 'N/A'
         

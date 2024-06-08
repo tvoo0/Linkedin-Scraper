@@ -38,12 +38,16 @@ def extract_job_details(job_urls):
         except AttributeError:
             description = 'N/A'
         
+        # size
         try:
+            # search for the company size element with the specifc string 'Company size'
             size_element = company_info_parsed.find('dt', text=re.compile('Company size'))
+            # locates the next sibling of the company size element and extracts the text
             size = size_element.find_next_sibling('dd').text.strip()
         except AttributeError:
             size = 'N/A'
         
+        # Append the job details to the list
         job_details_list.append({
             'Title': title,
             'Company': company,

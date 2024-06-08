@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
         # prompt user to enter the maximum number of jobs they'd like to see
         while True:
-            max_jobs = int(input("Enter the maximum number of jobs you'd like to see (1-50): "))
+            max_jobs = int(input("Enter the maximum number of jobs you'd like to see (1-40): "))
             if 1 <= max_jobs <= 40:
                 break
             else:
